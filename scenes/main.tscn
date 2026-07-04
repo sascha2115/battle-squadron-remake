@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://d3x6ac8vk2x7b"]
+
+[ext_resource type="Script" path="res://scripts/starfield.gd" id="1_xa4sm"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="2_mqr4s"]
+[ext_resource type="Texture2D" path="res://sprites/player/player.png" id="3_bi2cx"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="4_ymmd5"]
+[ext_resource type="Script" path="res://scripts/info_label.gd" id="5_weplbl"]
+[ext_resource type="Script" path="res://scripts/capsule_hud.gd" id="6_capsulehud"]
+[ext_resource type="Script" path="res://scripts/scrolling_camera.gd" id="7_camera"]
+[ext_resource type="Script" path="res://scripts/pause_label.gd" id="8_pauselabel"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1vrh"]
+size = Vector2(158, 158)
+
+[sub_resource type="LabelSettings" id="LabelSettings_info"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_pause"]
+font_size = 64
+font_color = Color(1, 1, 1, 1)
+outline_color = Color(0, 0, 0, 1)
+outline_size = 4
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("7_camera")
+
+[node name="Starfield" type="Node2D" parent="."]
+script = ExtResource("1_xa4sm")
+
+[node name="Enemy1Spawner" type="Node2D" parent="."]
+script = ExtResource("4_ymmd5")
+
+[node name="Player" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 12
+z_index = 10
+script = ExtResource("2_mqr4s")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("3_bi2cx")
+scale = Vector2(0.20, 0.21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_p1vrh")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="InfoLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -900.0
+offset_top = 12.0
+offset_right = -24.0
+offset_bottom = 60.0
+horizontal_alignment = 2
+vertical_alignment = 0
+text = ""
+autowrap_mode = 3
+label_settings = SubResource("LabelSettings_info")
+script = ExtResource("5_weplbl")
+
+[node name="CapsuleHUD" type="Control" parent="HUD"]
+script = ExtResource("6_capsulehud")
+
+[node name="PauseLabel" type="Label" parent="HUD"]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "PAUSE"
+label_settings = SubResource("LabelSettings_pause")
+script = ExtResource("8_pauselabel")
